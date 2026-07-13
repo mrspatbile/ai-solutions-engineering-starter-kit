@@ -1,8 +1,13 @@
+![Python](https://img.shields.io/badge/python-3.11%2B-blue)
+![License](https://img.shields.io/github/license/mrspatbile/ai-solutions-engineering-starter-kit)
+![Cookiecutter](https://img.shields.io/badge/built%20with-cookiecutter-orange)
+![uv](https://img.shields.io/badge/dependency%20manager-uv-purple)
+
+
 # AI Solutions Engineering Starter Kit
 
-An opinionated Cookiecutter template for planning, building, evaluating, documenting, containerizing, and publishing practical AI application projects.
+An opinionated template for planning and building AI applications with full reasoning from business problem through deployment, covering RAG, tool-calling agents, document extraction, classification, structured-output APIs, and finance-focused workflows.
 
-It is designed for people building portfolio evidence for AI Solutions Engineer, Applied AI Engineer, and AI Technical Consultant roles. The template supports RAG applications, tool-calling agents, document extraction, classification, structured-output APIs, and finance-focused AI workflows without hiding the core logic behind heavy frameworks.
 
 ## What It Generates
 
@@ -127,11 +132,15 @@ Discovery
 
 The template answers demo, reason about users, requirements, cost, risk, quality, and deployment tradeoffs.
 
-## Example Projects
+## Example Project Types This Template Supports
 
-- [Financial Document Assistant](examples/financial-document-assistant.md)
-- [Financial Investigation Agent](examples/financial-investigation-agent.md)
-- [Transaction Intelligence API](examples/transaction-intelligence-api.md)
+- Financial Document Assistant (RAG pattern)
+- Financial Investigation Agent (agent pattern)
+- Transaction Intelligence API (structured-output pattern)
+
+## Projects Built From This Template
+
+- [Equity vs Debt Analysis](../equity-vs-debt-analysis)
 
 ## Template Maintenance
 
