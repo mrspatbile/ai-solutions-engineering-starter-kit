@@ -1,0 +1,14 @@
+[
+  {
+    "id": "case-001",
+    "input": "A vendor invoice mentions payment risk because bank details changed.",
+    "expected_answer": "Escalate changed bank details for review.",
+    "expected_label": "needs_review"
+  },
+  {
+    "id": "case-002",
+    "input": "Summarize a routine monthly statement.",
+    "expected_answer": "Routine monthly statement summary.",
+    "expected_label": "general"
+  }
+]

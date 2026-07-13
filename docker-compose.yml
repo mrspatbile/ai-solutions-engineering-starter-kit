@@ -1,0 +1,7 @@
+services:
+  template:
+    build: .
+    working_dir: /template
+    volumes:
+      - .:/template
+

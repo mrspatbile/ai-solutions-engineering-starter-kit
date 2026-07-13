@@ -1,0 +1,46 @@
+{
+  "project_name": "AI Solutions Engineering Project",
+  "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '-').replace('_', '-') }}",
+  "project_description": "A practical AI app with documented discovery, design, evaluation, and deployment evidence.",
+  "author_name": "Your Name",
+  "business_domain": [
+    "finance",
+    "retail",
+    "HR",
+    "healthcare",
+    "general"
+  ],
+  "target_user": "Operations analyst",
+  "ai_pattern": [
+    "RAG",
+    "agent",
+    "classification",
+    "extraction",
+    "structured-output API"
+  ],
+  "interface_type": [
+    "FastAPI and Streamlit",
+    "FastAPI",
+    "Streamlit"
+  ],
+  "model_provider": [
+    "Ollama",
+    "OpenAI-compatible API",
+    "Hugging Face"
+  ],
+  "vector_store": [
+    "FAISS",
+    "Chroma",
+    "none"
+  ],
+  "include_fastapi": "yes",
+  "include_streamlit": "yes",
+  "include_docker": "yes",
+  "include_evaluation": "yes",
+  "include_github_actions": "yes",
+  "license": [
+    "MIT",
+    "Apache-2.0",
+    "Proprietary"
+  ]
+}
