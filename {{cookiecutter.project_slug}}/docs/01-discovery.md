@@ -32,6 +32,15 @@ Describe the current workflow step by step. Include tools, handoffs, wait time, 
 - TODO: measurable goal
 - TODO: decision the user needs to make
 
+## Foundation Data Dependency
+
+| Item | Notes |
+| --- | --- |
+| Depends on a foundation package? | TODO: yes/no |
+| Package name and source | TODO |
+| Version pinned | TODO |
+| Why this dependency (vs. building data access from scratch) | TODO |
+
 ## Existing Alternatives
 
 | Alternative | Strength | Gap |
