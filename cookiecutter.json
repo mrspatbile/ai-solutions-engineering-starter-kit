@@ -38,6 +38,10 @@
   "include_docker": "yes",
   "include_evaluation": "yes",
   "include_github_actions": "yes",
+  "depends_on_foundation": "no",
+  "foundation_package_name": "sec_holdings",
+  "foundation_git_url": "https://github.com/your-org/your-foundation-package.git",
+  "foundation_version_tag": "v0.1.0",
   "license": [
     "MIT",
     "Apache-2.0",

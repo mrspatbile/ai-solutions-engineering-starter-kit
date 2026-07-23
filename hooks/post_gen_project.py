@@ -266,6 +266,10 @@ if "{{ cookiecutter.include_evaluation }}".lower() not in {"yes", "true", "1"}:
 if "{{ cookiecutter.include_github_actions }}".lower() not in {"yes", "true", "1"}:
     remove(".github")
 
+if "{{ cookiecutter.depends_on_foundation }}".lower() not in {"yes", "true", "1"}:
+    remove("app/services/foundation_service.py")
+    remove("tests/test_foundation_service.py")
+
 # Write a LICENSE file matching the "license" answer. The author field in
 # cookiecutter.json is named "author_name".
 license_choice = "{{ cookiecutter.license }}"

@@ -3,4 +3,4 @@ generate:
 	cookiecutter . --output-dir ~/Documents/ai-solutions
 
 lint:
-	ruff check .
+	ruff check . --config pyproject.toml

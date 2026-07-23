@@ -24,6 +24,7 @@ dependencies = [
 local-llm = []
 embeddings = []
 vector-search = []
+foundation = [{% if cookiecutter.depends_on_foundation == "yes" %}"{{ cookiecutter.foundation_package_name }} @ git+{{ cookiecutter.foundation_git_url }}@{{ cookiecutter.foundation_version_tag }}"{% endif %}]
 development = [
     "pytest>=8.2.0",
     "pytest-cov>=5.0.0",

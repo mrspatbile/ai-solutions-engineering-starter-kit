@@ -14,6 +14,7 @@ An opinionated template for planning and building AI applications with full reas
 - A Python 3.11+ FastAPI starter with health and example endpoints
 - A Streamlit starter UI
 - Provider-independent interfaces for LLM, embedding, retrieval, and evaluation services
+- An optional, version-pinned dependency on an external "foundation" data package (`depends_on_foundation`), with a deterministic mock service by default
 - Documentation templates from discovery through reflection
 - Mermaid architecture diagrams
 - Evaluation dataset, metrics, and a deterministic evaluation runner
@@ -113,6 +114,7 @@ The generated code intentionally uses deterministic local implementations. Repla
 - `app/services/llm_service.py`: connect Ollama, Hugging Face, or an OpenAI-compatible API.
 - `app/services/embedding_service.py`: connect Sentence Transformers or provider embeddings.
 - `app/services/retrieval_service.py`: connect FAISS or Chroma.
+- `app/services/foundation_service.py` (present only when `depends_on_foundation` is `yes`): connect the pinned foundation package named at generation time (`foundation_package_name`, `foundation_git_url`, `foundation_version_tag` in `cookiecutter.json`).
 - `evaluation/run_evaluation.py`: replace mock predictions with your application pipeline.
 
 Keep validation, logging, error handling, and test coverage in place as you add real providers.
@@ -137,6 +139,7 @@ The template answers demo, reason about users, requirements, cost, risk, quality
 - Financial Document Assistant (RAG pattern)
 - Financial Investigation Agent (agent pattern)
 - Transaction Intelligence API (structured-output pattern)
+- Data Consumer Application (foundation-package pattern)
 
 ## Projects Built From This Template
 

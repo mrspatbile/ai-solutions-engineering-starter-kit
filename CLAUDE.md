@@ -43,11 +43,20 @@ The template's core idea is **provider-independent service interfaces**: every A
 - `app/services/llm_service.py` — `LLMService` protocol + `LocalMockLLMService` (keyword-based mock classification, e.g. flags "risk"/"fraud" text as `needs_review`). Real implementations (Ollama, Hugging Face, OpenAI-compatible) get added here.
 - `app/services/retrieval_service.py` — `RetrievalService` protocol + `InMemoryRetrievalService`. Real FAISS/Chroma implementations go here.
 - `app/services/embedding_service.py`, `app/services/evaluation_service.py` — same pattern for embeddings and eval scoring.
+- `app/services/foundation_service.py` — `FoundationDataService` protocol + `LocalMockFoundationDataService`, same pattern again. Only present when the project was generated with `depends_on_foundation: yes` (see below); a real implementation wraps the pinned external "foundation" data package (e.g. a package like `sec_holdings` fetching SEC EDGAR fund holdings) behind this Protocol without call sites ever importing that package directly.
 - `app/schemas.py` — Pydantic models shared across services and API (e.g. `ExampleRequest`/`ExampleResponse`/`EvidenceItem`).
 - `app/config.py` — `pydantic_settings.BaseSettings`, env-prefixed `APP_`, loaded from `.env` via `get_settings()` (lru_cached).
 - `app/main.py` — `create_app()` factory wires health + `/api/v1` routers; the module-level `app` is what uvicorn serves.
 - `evaluation/run_evaluation.py` — standalone deterministic evaluation runner (not wired to the FastAPI app) that reads `evaluation/dataset.example.json`, scores with `evaluation/metrics.py`, and writes `evaluation/results/sample_results.json`. `mock_predict()` is the seam to replace with the real pipeline.
 - `ui/streamlit_app.py` — separate process from the API; talks to it over HTTP (not in-process imports).
+
+
+**Note on the trailing `# TODO` in each service file:**
+
+- Every service in `app/services/` (`llm_service.py`, `retrieval_service.py`, `embedding_service.py`, `foundation_service.py`) ships a Protocol plus a deterministic, network-free mock implementation as the default, so generated projects run and pass tests with zero credentials or installed packages.
+- Each file ends with a trailing `# TODO` comment marking where a real implementation goes. This is intentional and expected, not unfinished work — do not "complete" these TODOs automatically or flag them as bugs in a future session.
+- To wire in a real implementation: write a new class satisfying the same Protocol (e.g. `SecHoldingsFoundationService` for `foundation_service.py`), then swap it in at the dependency-injection point where the mock is currently instantiated. Call sites depend on the Protocol, not the concrete class, so nothing else in the app changes.
+- For `foundation_service.py` specifically: the real implementation should import the installed foundation package directly (e.g. `from sec_holdings import database`) inside that class, not read `foundation_package_name`/`foundation_git_url`/`foundation_version_tag` at runtime — those remain generation-time-only values used to pin the `pyproject.toml` dependency.
 
 ### Documentation-first workflow
 
@@ -57,6 +66,7 @@ The template treats documentation as a first-class, sequenced deliverable, not a
 
 ## Editing conventions specific to this template
 
-- Any new file inside `{{cookiecutter.project_slug}}/` may need conditional removal logic added to `hooks/post_gen_project.py` if it should only exist for certain cookiecutter answers (follow the existing `remove(...)` pattern keyed off `cookiecutter.json` fields like `include_fastapi`, `include_streamlit`, `include_docker`, `include_evaluation`, `include_github_actions`).
+- Any new file inside `{{cookiecutter.project_slug}}/` may need conditional removal logic added to `hooks/post_gen_project.py` if it should only exist for certain cookiecutter answers (follow the existing `remove(...)` pattern keyed off `cookiecutter.json` fields like `include_fastapi`, `include_streamlit`, `include_docker`, `include_evaluation`, `include_github_actions`, `depends_on_foundation`). `depends_on_foundation` removes both `app/services/foundation_service.py` and `tests/test_foundation_service.py` as a pair when `no`, so the whole feature disappears cleanly rather than leaving dead code.
 - `cookiecutter.json` is the single source of truth for prompts/choices; keep `README.md` (root) and the generated `README.md` template in sync with any new or renamed option.
 - Mock service implementations are intentionally deterministic (no randomness, no network calls) so `make test` and `make evaluate` are reproducible without credentials — preserve that property when extending mocks, and keep real-provider implementations behind the same Protocol rather than replacing it.
+- `foundation_package_name`, `foundation_git_url`, and `foundation_version_tag` are generation-time-only inputs: they exist solely to render the pinned git dependency once into `pyproject.toml`'s `foundation` optional-dependency group (`foundation_git_url` is stored without a `git+` prefix; the prefix is added at render time). They are deliberately **not** threaded into `app/config.py`/`Settings` or `.env.example` — unlike `model_provider`/`vector_store`, which are genuine runtime configuration, these three values have no runtime meaning once the dependency is pinned, and the real service implementation should import the installed foundation package directly rather than re-deriving it from its own source location at runtime. Do not treat their absence from `Settings` as a gap to fill in.
